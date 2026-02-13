@@ -1632,6 +1632,7 @@
   clk_hw_register_composite
   clk_hw_round_rate
   clk_hw_set_parent
+  clk_hw_unregister_composite
   clk_mux_ops
   clk_mux_ro_ops
   clk_register_divider_table
@@ -2207,9 +2208,16 @@
   remove_proc_subtree
   pci_choose_state
 
+# required by wlan_mt7902_usb.ko
+  cfg80211_cqm_txe_notify
+  ieee80211_operating_class_to_band
+
 # required by reboot-mode.ko
   devres_release
   kernel_kobj
+
+# required by xd_charger_framework.ko
+  kernel_power_off
 
 # required by rfkill-rk.ko
   kstrtoll
@@ -2920,6 +2928,23 @@
   usb_remove_function
   usb_composite_unregister
   usb_ep_autoconfig_reset
+  g_audio_setup
+  g_audio_cleanup
+  u_audio_start_capture
+  u_audio_stop_capture
+  u_audio_start_playback
+  u_audio_stop_playback
+  snd_pcm_stream_lock
+  snd_pcm_stream_unlock
+
+# required by uvc.ko
+  usb_composite_setup_continue
+  usb_function_activate
+  usb_function_deactivate
+  config_group_find_item
+  usb_ep_autoconfig_ss
+  v4l2_simplify_fraction
+  usb_gadget_frame_number
 
 # required by v4l2-fwnode.ko
   fwnode_device_is_available
@@ -3068,3 +3093,14 @@
 # required by si2157.ko
   media_device_register_entity
   media_device_unregister_entity
+
+# required by usb_wwan.ko
+  usb_autopm_get_interface_async
+  usb_autopm_put_interface_async
+
+# required by option.ko
+  tty_port_tty_hangup
+
+# required by qmi_wwan_q.ko
+  arp_create
+  netdev_stats_to_stats64
