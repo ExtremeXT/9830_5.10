@@ -305,9 +305,12 @@ static struct snd_pcm_chmap_elem *convert_chmap(int channels, unsigned int bits,
 	c = 0;
 
 	if (bits) {
-		for (; bits && *maps; maps++, bits >>= 1)
+		for (; bits && *maps; maps++, bits >>= 1) {
 			if (bits & 1)
 				chmap->map[c++] = *maps;
+			if (c == chmap->channels)
+				break;
+		}
 	} else {
 		/* If we're missing wChannelConfig, then guess something
 		    to make sure the channel map is not skipped entirely */
@@ -352,6 +355,11 @@ snd_pcm_chmap_elem *convert_chmap_v3(struct uac3_cluster_header_descriptor
 
 		cs_len = le16_to_cpu(cs_desc->wLength);
 		cs_type = cs_desc->bSegmentType;
+
+		if ((p - (void *)cluster) + cs_len > len) {
+			pr_err("%s: out of buffer\n", __func__);
+			break;
+		}
 
 		if (cs_type == UAC3_CHANNEL_INFORMATION) {
 			struct uac3_cluster_information_segment_descriptor *is = p;
@@ -997,7 +1005,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
 	if (err < 0) {
 		kfree(cluster);
 		return ERR_PTR(err);
-	} else if (err != wLength) {
+	} else if (err != wLength || wLength < le16_to_cpu(cluster->wLength)) {
 		dev_err(&dev->dev,
 			"%u:%d : can't get Cluster Descriptor\n",
 			iface_no, altno);
