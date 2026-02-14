@@ -268,5 +268,9 @@ obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
 obj-$(CONFIG_MFD_SIMPLE_MFD_I2C)	+= simple-mfd-i2c.o
 obj-$(CONFIG_MFD_INTEL_M10_BMC)   += intel-m10-bmc.o
 
+obj-$(CONFIG_MFD_S2MPS19)	+= s2mps19_core.o s2mps19_irq.o
+obj-$(CONFIG_MFD_S2MPS22)	+= s2mps22_core.o s2mps22_irq.o
+obj-$(CONFIG_MFD_S2MPB02)	+= s2mpb02-core.o s2mpb02-irq.o
+
 obj-$(CONFIG_MFD_S2MPU12)	+= s2mpu12_mfd.o
 s2mpu12_mfd-$(CONFIG_MFD_S2MPU12) += s2mpu12-core.o s2mpu12-irq.o
